@@ -6,6 +6,7 @@ import { Badge } from "../components/ui/Badge";
 import { Button } from "../components/ui/Button";
 import { MATCH_STATUS_LABELS } from "@domain/match";
 import { APPLICATION_STATUS_LABELS } from "@domain/application";
+import type { ApplicationStatus } from "@domain/application";
 import { Calendar, MapPin, Users, Loader2, Trophy } from "lucide-react";
 
 type Tab = "pending" | "confirmed";
@@ -185,7 +186,7 @@ export function MyMatchesPage() {
                           {MATCH_STATUS_LABELS[match.status] ?? match.status}
                         </Badge>
                         <Badge variant={appStatusVariant(app.status)}>
-                          {APPLICATION_STATUS_LABELS[app.status] ?? app.status}
+                          {APPLICATION_STATUS_LABELS[app.status as ApplicationStatus] ?? app.status}
                         </Badge>
                       </div>
                     </div>

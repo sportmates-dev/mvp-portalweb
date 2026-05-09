@@ -2,6 +2,10 @@ import { supabase } from './client'
 import type { IProfilePort, UpdateProfileInput } from '@application/ports/profile.port'
 import type { Profile, PlayerPosition } from '@domain/profile'
 
+// No generated Supabase types yet — cast to any for MVP
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const from = (table: string): any => supabase.from(table)
+
 /*
  * The database stores positions in English (goalkeeper, defender, midfielder,
  * forward) because of the CHECK constraint, but the domain layer and UI use
@@ -33,8 +37,7 @@ function mapDomainToDbPosition(domainValue: string | null): string | null {
 
 export const profileAdapter: IProfilePort = {
   async get(userId) {
-    const { data, error } = await supabase
-      .from('profiles')
+    const { data, error } = await from('profiles')
       .select('*')
       .eq('id', userId)
       .single()
@@ -58,8 +61,7 @@ export const profileAdapter: IProfilePort = {
       mappedData.position = mapDomainToDbPosition(data.position)
     }
 
-    const { data: updated, error } = await supabase
-      .from('profiles')
+    const { data: updated, error } = await from('profiles')
       .update(mappedData)
       .eq('id', userId)
       .select('*')

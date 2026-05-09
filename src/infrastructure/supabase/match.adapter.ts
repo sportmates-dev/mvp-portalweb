@@ -4,6 +4,10 @@ import type { Match, MatchStatus } from '@domain/match'
 import type { Application } from '@domain/application'
 import type { Profile } from '@domain/profile'
 
+// No generated Supabase types yet — cast to any for MVP
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const from = (table: string): any => supabase.from(table)
+
 function isSchemaError(error: { message?: string }): boolean {
   const msg = error.message ?? ''
   return msg.includes('does not exist') || msg.includes('Could not find')
@@ -46,8 +50,7 @@ export const matchAdapter: IMatchPort & {
   autoCloseExpired(now: Date): Promise<number>
 } = {
   async create(data: CreateMatchInput): Promise<Match> {
-    const { data: match, error } = await supabase
-      .from('matches')
+    const { data: match, error } = await from('matches')
       .insert({
         organizer_id: data.organizer_id,
         date: data.date,
@@ -66,8 +69,7 @@ export const matchAdapter: IMatchPort & {
   },
 
   async getById(id: number): Promise<Match | null> {
-    const { data, error } = await supabase
-      .from('matches')
+    const { data, error } = await from('matches')
       .select('*')
       .eq('id', id)
       .single()
@@ -81,8 +83,7 @@ export const matchAdapter: IMatchPort & {
   },
 
   async list(filters?: MatchFilters): Promise<Match[]> {
-    let query = supabase
-      .from('matches')
+    let query = from('matches')
       .select('*')
       .order('date', { ascending: true })
       .order('start_time', { ascending: true })
@@ -107,8 +108,7 @@ export const matchAdapter: IMatchPort & {
   },
 
   async updateStatus(id: number, status: MatchStatus): Promise<void> {
-    const { error } = await supabase
-      .from('matches')
+    const { error } = await from('matches')
       .update({ status })
       .eq('id', id)
 
@@ -116,8 +116,7 @@ export const matchAdapter: IMatchPort & {
   },
 
   async getByOrganizer(organizerId: string): Promise<Match[]> {
-    const { data, error } = await supabase
-      .from('matches')
+    const { data, error } = await from('matches')
       .select('*')
       .eq('organizer_id', organizerId)
       .order('date', { ascending: true })
@@ -132,8 +131,7 @@ export const matchAdapter: IMatchPort & {
   // ── Application-related queries (needed for MatchDetail) ────────────────
 
   async getApplications(matchId: number): Promise<Application[]> {
-    const { data, error } = await supabase
-      .from('applications')
+    const { data, error } = await from('applications')
       .select('*')
       .eq('match_id', matchId)
       .order('created_at', { ascending: true })
@@ -146,8 +144,7 @@ export const matchAdapter: IMatchPort & {
   },
 
   async getUserApplication(matchId: number, playerId: string): Promise<Application | null> {
-    const { data, error } = await supabase
-      .from('applications')
+    const { data, error } = await from('applications')
       .select('*')
       .eq('match_id', matchId)
       .eq('player_id', playerId)
@@ -162,8 +159,7 @@ export const matchAdapter: IMatchPort & {
 
   async applyToMatch(matchId: number, playerId: string): Promise<void> {
     // UPSERT: overwrite rejected/kicked status with a new pending application
-    const { error } = await supabase
-      .from('applications')
+    const { error } = await from('applications')
       .upsert(
         {
           match_id: matchId,
@@ -177,8 +173,7 @@ export const matchAdapter: IMatchPort & {
   },
 
   async getAcceptedPlayers(matchId: number): Promise<ApplicationWithProfile[]> {
-    const { data, error } = await supabase
-      .from('applications')
+    const { data, error } = await from('applications')
       .select(`
         id, match_id, player_id, status, created_at,
         profiles:player_id (id, name, photo_url, position, role)
@@ -195,8 +190,7 @@ export const matchAdapter: IMatchPort & {
   },
 
   async getPlayerApplications(playerId: string): Promise<ApplicationWithMatch[]> {
-    const { data, error } = await supabase
-      .from('applications')
+    const { data, error } = await from('applications')
       .select(`
         id, match_id, player_id, status, created_at,
         matches:match_id (id, date, start_time, end_time, location, status, slots)
@@ -227,15 +221,14 @@ export const matchAdapter: IMatchPort & {
     try {
       // Fetch all open/full matches — avoid complex nested or/and filters
       // that PostgREST does not support well in URL query parameters.
-      const { data: matches, error: fetchError } = await supabase
-        .from('matches')
+      const { data: matches, error: fetchError } = await from('matches')
         .select('id, date, end_time')
         .in('status', ['open', 'full'])
 
       if (fetchError || !matches || matches.length === 0) return 0
 
       // Filter expired matches client-side
-      const expired = matches.filter((m) => {
+      const expired = (matches as Array<{ id: number; date: string; end_time: string }>).filter((m) => {
         if (m.date < nowDate) return true
         if (m.date === nowDate && m.end_time < nowTime) return true
         return false
@@ -248,8 +241,7 @@ export const matchAdapter: IMatchPort & {
       // own the match (e.g. anonymous landing page). We count only successes.
       let closedCount = 0
       for (const m of expired) {
-        const { error } = await supabase
-          .from('matches')
+        const { error } = await from('matches')
           .update({ status: 'closed' })
           .eq('id', m.id)
 

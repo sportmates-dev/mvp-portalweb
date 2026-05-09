@@ -2,6 +2,10 @@ import { supabase } from './client'
 import type { IApplicationPort, ApplicationWithPlayer } from '@application/ports/match.port'
 import type { ApplicationStatus } from '@domain/application'
 
+// No generated Supabase types yet — cast to any for MVP
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const from = (table: string): any => supabase.from(table)
+
 /**
  * Application adapter — implements IApplicationPort.
  *
@@ -11,8 +15,7 @@ import type { ApplicationStatus } from '@domain/application'
  */
 export const applicationAdapter: IApplicationPort = {
   async applyToMatch(matchId: number, playerId: string): Promise<void> {
-    const { error } = await supabase
-      .from('applications')
+    const { error } = await from('applications')
       .upsert(
         { match_id: matchId, player_id: playerId, status: 'pending' },
         { onConflict: 'match_id,player_id' },
@@ -22,8 +25,7 @@ export const applicationAdapter: IApplicationPort = {
   },
 
   async getApplicationsForMatch(matchId: number): Promise<ApplicationWithPlayer[]> {
-    const { data, error } = await supabase
-      .from('applications')
+    const { data, error } = await from('applications')
       .select(`
         id, match_id, player_id, status, created_at,
         profiles:player_id (id, name, photo_url, position, role)
@@ -39,8 +41,7 @@ export const applicationAdapter: IApplicationPort = {
     applicationId: number,
     status: ApplicationStatus,
   ): Promise<void> {
-    const { error } = await supabase
-      .from('applications')
+    const { error } = await from('applications')
       .update({ status })
       .eq('id', applicationId)
 

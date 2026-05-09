@@ -7,6 +7,7 @@ import { Avatar } from '../components/ui/Avatar'
 import { Button } from '../components/ui/Button'
 import { MATCH_STATUS_LABELS } from '@domain/match'
 import { APPLICATION_STATUS_LABELS } from '@domain/application'
+import type { ApplicationStatus } from '@domain/application'
 import { PLAYER_POSITION_LABELS } from '@domain/profile'
 import type { PlayerPosition } from '@domain/profile'
 import {
@@ -311,7 +312,7 @@ export function ManageMatchPage() {
 
                     {/* Status badge */}
                     <Badge variant={appStatusVariant(app.status)}>
-                      {APPLICATION_STATUS_LABELS[app.status]}
+                      {APPLICATION_STATUS_LABELS[app.status as ApplicationStatus]}
                     </Badge>
 
                     {/* Actions */}
