@@ -1,0 +1,7 @@
+export { supabase } from './client'
+export { authAdapter } from './auth.adapter'
+export { profileAdapter } from './profile.adapter'
+export { storageAdapter } from './storage.adapter'
+export { applicationAdapter } from './application.adapter'
+export { attendanceAdapter } from './attendance.adapter'
+export { ratingAdapter } from './rating.adapter'
