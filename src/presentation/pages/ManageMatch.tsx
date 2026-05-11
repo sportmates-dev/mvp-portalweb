@@ -6,14 +6,10 @@ import { Badge } from '../components/ui/Badge'
 import { Avatar } from '../components/ui/Avatar'
 import { Button } from '../components/ui/Button'
 import { MATCH_STATUS_LABELS } from '@domain/match'
-import { APPLICATION_STATUS_LABELS } from '@domain/application'
-import type { ApplicationStatus } from '@domain/application'
-import { PLAYER_POSITION_LABELS } from '@domain/profile'
 import type { PlayerPosition } from '@domain/profile'
 import {
   ArrowLeft, Calendar, Clock, MapPin, Users,
-  MessageCircle, Loader2, CheckCircle, XCircle,
-  UserX, ClipboardCheck, Star,
+  MessageCircle, Loader2, Star,
 } from 'lucide-react'
 
 function formatDate(dateStr: string): string {
@@ -33,16 +29,6 @@ function statusBadgeVariant(status: string): 'green' | 'orange' | 'red' | 'gray'
     case 'full': return 'gray'
     case 'closed': return 'orange'
     case 'cancelled': return 'red'
-    default: return 'gray'
-  }
-}
-
-function appStatusVariant(status: string): 'green' | 'orange' | 'red' | 'gray' {
-  switch (status) {
-    case 'accepted': return 'green'
-    case 'pending': return 'orange'
-    case 'rejected': return 'red'
-    case 'kicked': return 'red'
     default: return 'gray'
   }
 }
