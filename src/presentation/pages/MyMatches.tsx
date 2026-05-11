@@ -160,11 +160,11 @@ export function MyMatchesPage() {
                   >
                     <div className="flex items-start justify-between gap-3">
                       <div className="flex-1 min-w-0">
-                        <h3 className="font-semibold text-gray-900 truncate">
+                        <h3 className="font-semibold text-gray-900 dark:text-dark-text truncate">
                           Partido en {match.location}
                         </h3>
 
-                        <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-gray-500">
+                        <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-gray-500 dark:text-dark-text-muted">
                           <span className="inline-flex items-center gap-1">
                             <Calendar className="w-4 h-4" />
                             {formatDate(match.date)} —{" "}

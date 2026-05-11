@@ -147,8 +147,8 @@ export function ManageMatchPage() {
     return (
       <div className="min-h-[calc(100vh-3.5rem)] flex items-center justify-center px-4">
         <Card className="text-center max-w-md w-full py-8">
-          <h2 className="text-xl font-semibold text-gray-900">Partido no encontrado</h2>
-          <p className="mt-2 text-sm text-gray-500">
+          <h2 className="text-xl font-semibold text-gray-900 dark:text-dark-text">Partido no encontrado</h2>
+          <p className="mt-2 text-sm text-gray-500 dark:text-dark-text-muted">
             No tenés acceso a este partido o no existe.
           </p>
           <Button variant="primary" className="mt-4" onClick={() => navigate('/')}>
@@ -173,7 +173,7 @@ export function ManageMatchPage() {
         {/* Back button */}
         <button
           onClick={() => navigate(-1)}
-          className="inline-flex items-center gap-1 text-sm text-gray-500 hover:text-verde-primary transition-colors mb-6"
+          className="inline-flex items-center gap-1 text-sm text-gray-500 dark:text-dark-text-muted hover:text-verde-primary transition-colors mb-6"
         >
           <ArrowLeft className="w-4 h-4" />
           Volver
@@ -182,7 +182,7 @@ export function ManageMatchPage() {
         {/* ── 1. Match summary ──────────────────────────────────────── */}
         <Card className="mb-6">
           <div className="flex items-start justify-between gap-3">
-            <h1 className="text-xl font-bold text-gray-900">
+            <h1 className="text-xl font-bold text-gray-900 dark:text-dark-text">
               Partido en {match.location}
             </h1>
             <Badge variant={statusBadgeVariant(match.status)}>
@@ -190,7 +190,7 @@ export function ManageMatchPage() {
             </Badge>
           </div>
 
-          <div className="mt-4 space-y-2 text-sm text-gray-600">
+          <div className="mt-4 space-y-2 text-sm text-gray-600 dark:text-dark-text-muted">
             <div className="flex items-center gap-2">
               <Calendar className="w-4 h-4 text-gray-400" />
               <span>{formatDate(match.date)}</span>
@@ -210,12 +210,12 @@ export function ManageMatchPage() {
             <Users className="w-5 h-5 text-gray-400" />
             <div className="flex-1">
               <div className="flex items-center justify-between text-sm mb-1">
-                <span className="text-gray-600">Cupos ocupados</span>
-                <span className="font-semibold text-gray-900">
+                <span className="text-gray-600 dark:text-dark-text-muted">Cupos ocupados</span>
+                <span className="font-semibold text-gray-900 dark:text-dark-text">
                   {acceptedCount} / {match.slots}
                 </span>
               </div>
-              <div className="w-full h-2 bg-gray-100 rounded-full overflow-hidden">
+              <div className="w-full h-2 bg-gray-100 dark:bg-dark-border rounded-full overflow-hidden">
                 <div
                   className="h-full bg-verde-primary rounded-full transition-all duration-300"
                   style={{
@@ -269,7 +269,7 @@ export function ManageMatchPage() {
         {/* ── 2. Applications ───────────────────────────────────────── */}
         <Card className="mb-6">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-semibold text-gray-900">
+            <h2 className="text-lg font-semibold text-gray-900 dark:text-dark-text">
               Postulaciones
             </h2>
             {pendingCount > 0 && (
@@ -289,113 +289,9 @@ export function ManageMatchPage() {
                 const playerPosition = (player?.position ?? null) as PlayerPosition | null
 
                 return (
-                  <div
-                    key={app.id}
-                    className="flex items-center gap-3 p-3 rounded-lg border border-gris-border bg-gray-50/50"
-                  >
-                    {/* Avatar + name + position */}
-                    <Avatar
-                      src={player?.photo_url ?? null}
-                      name={playerName}
-                      size="sm"
-                    />
-                    <div className="flex-1 min-w-0">
-                      <p className="text-sm font-semibold text-gray-900 truncate">
-                        {playerName}
-                      </p>
-                      {playerPosition && (
-                        <p className="text-xs text-gray-500">
-                          {PLAYER_POSITION_LABELS[playerPosition]}
-                        </p>
-                      )}
-                    </div>
-
-                    {/* Status badge */}
-                    <Badge variant={appStatusVariant(app.status)}>
-                      {APPLICATION_STATUS_LABELS[app.status as ApplicationStatus]}
-                    </Badge>
-
-                    {/* Actions */}
-                    {!isClosedOrCancelled && (
-                      <div className="flex items-center gap-1.5">
-                        {app.status === 'pending' && (
-                          <>
-                            <button
-                              onClick={() => handleAccept(app)}
-                              disabled={actionLoading === app.id}
-                              className="p-1.5 rounded-lg text-green-600 hover:bg-green-100 transition-colors"
-                              title="Aceptar"
-                            >
-                              <CheckCircle className="w-5 h-5" />
-                            </button>
-                            <button
-                              onClick={() => handleReject(app)}
-                              disabled={actionLoading === app.id}
-                              className="p-1.5 rounded-lg text-red-500 hover:bg-red-100 transition-colors"
-                              title="Rechazar"
-                            >
-                              <XCircle className="w-5 h-5" />
-                            </button>
-                          </>
-                        )}
-
-                        {app.status === 'accepted' && (
-                          <button
-                            onClick={() => handleKick(app)}
-                            disabled={actionLoading === app.id}
-                            className="p-1.5 rounded-lg text-red-400 hover:bg-red-100 hover:text-red-600 transition-colors"
-                            title="Expulsar"
-                          >
-                            <UserX className="w-5 h-5" />
-                          </button>
-                        )}
-
-                        {app.status === 'rejected' && (
-                          <span className="text-xs text-gray-400 italic">
-                            Puede volver a postularse
-                          </span>
-                        )}
-
-                        {app.status === 'kicked' && (
-                          <span className="text-xs text-gray-400 italic">Expulsado</span>
-                        )}
-                      </div>
-                    )}
-                  </div>
-                )
-              })}
-            </div>
-          )}
-        </Card>
-
-        {/* ── 3. Post-match: Attendance ──────────────────────────────── */}
-        {isMatchEnded && (
-          <Card className="mb-6">
-            <div className="flex items-center gap-2 mb-4">
-              <ClipboardCheck className="w-5 h-5 text-gray-500" />
-              <h2 className="text-lg font-semibold text-gray-900">Asistencia</h2>
-            </div>
-
-            {applications.filter((a) => a.status === 'accepted').length === 0 ? (
-              <p className="text-sm text-gray-400 text-center py-4">
-                No hubo jugadores confirmados en este partido.
-              </p>
-            ) : (
-              <div className="space-y-2">
-                {applications
-                  .filter((a) => a.status === 'accepted')
-                  .map((app) => {
-                    const player = app.profiles
-                    const playerName = player?.name ?? 'Jugador'
-                    const attendance = attendances.find(
-                      (a) => a.player_id === app.player_id,
-                    )
-                    const attended = attendance?.attended ?? false
-
-                    return (
-                      <label
+                      <div
                         key={app.player_id}
-                        className="flex items-center gap-3 p-3 rounded-lg border border-gris-border bg-gray-50/50 cursor-pointer hover:bg-gray-100 transition-colors"
+                        className="flex items-center gap-3 p-3 rounded-lg border border-gris-border dark:border-dark-border bg-gray-50/50 dark:bg-dark-bg/50 cursor-pointer hover:bg-gray-100 dark:hover:bg-dark-surface/70 transition-colors"
                       >
                         <input
                           type="checkbox"
@@ -418,13 +314,12 @@ export function ManageMatchPage() {
                             Presente
                           </span>
                         )}
-                      </label>
+                      </div>
                     )
                   })}
               </div>
             )}
           </Card>
-        )}
 
         {/* ── 4. Post-match: Ratings (only after attendance complete) ──── */}
         {isMatchEnded && isAttendanceCompleted && (
@@ -454,7 +349,7 @@ export function ManageMatchPage() {
                     return (
                       <div
                         key={app.player_id}
-                        className="flex items-center gap-3 p-3 rounded-lg border border-gris-border bg-gray-50/50"
+                    className="flex items-center gap-3 p-3 rounded-lg border border-gris-border dark:border-dark-border bg-gray-50/50 dark:bg-dark-bg/50"
                       >
                         <Avatar
                           src={player?.photo_url ?? null}

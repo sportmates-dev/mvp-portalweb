@@ -123,10 +123,10 @@ export function MatchDetailPage() {
     return (
       <div className="min-h-[calc(100vh-3.5rem)] flex items-center justify-center px-4">
         <Card className="text-center max-w-md w-full py-8">
-          <h2 className="text-xl font-semibold text-gray-900">
+          <h2 className="text-xl font-semibold text-gray-900 dark:text-dark-text">
             Partido no encontrado
           </h2>
-          <p className="mt-2 text-sm text-gray-500">
+          <p className="mt-2 text-sm text-gray-500 dark:text-dark-text-muted">
             El partido que buscas no existe o fue eliminado.
           </p>
           <Button
@@ -149,7 +149,7 @@ export function MatchDetailPage() {
         {/* Back button */}
         <button
           onClick={() => navigate(-1)}
-          className="inline-flex items-center gap-1 text-sm text-gray-500 hover:text-verde-primary transition-colors mb-6"
+          className="inline-flex items-center gap-1 text-sm text-gray-500 dark:text-dark-text-muted hover:text-verde-primary transition-colors mb-6"
         >
           <ArrowLeft className="w-4 h-4" />
           Volver
@@ -158,7 +158,7 @@ export function MatchDetailPage() {
         {/* Match header card */}
         <Card className="mb-6">
           <div className="flex items-start justify-between gap-3">
-            <h1 className="text-xl font-bold text-gray-900">
+            <h1 className="text-xl font-bold text-gray-900 dark:text-dark-text">
               Partido en {match.location}
             </h1>
             <Badge variant={statusBadgeVariant(match.status)}>
@@ -180,7 +180,7 @@ export function MatchDetailPage() {
           )}
 
           {/* Match details */}
-          <div className="mt-4 space-y-2 text-sm text-gray-600">
+          <div className="mt-4 space-y-2 text-sm text-gray-600 dark:text-dark-text-muted">
             <div className="flex items-center gap-2">
               <Calendar className="w-4 h-4 text-gray-400" />
               <span>{formatDate(match.date)}</span>
@@ -208,12 +208,12 @@ export function MatchDetailPage() {
             <Users className="w-5 h-5 text-gray-400" />
             <div className="flex-1">
               <div className="flex items-center justify-between text-sm mb-1">
-                <span className="text-gray-600">Cupos</span>
-                <span className="font-semibold text-gray-900">
+                <span className="text-gray-600 dark:text-dark-text-muted">Cupos</span>
+                <span className="font-semibold text-gray-900 dark:text-dark-text">
                   {acceptedCount} / {match.slots}
                 </span>
               </div>
-              <div className="w-full h-2 bg-gray-100 rounded-full overflow-hidden">
+              <div className="w-full h-2 bg-gray-100 dark:bg-dark-border rounded-full overflow-hidden">
                 <div
                   className="h-full bg-verde-primary rounded-full transition-all duration-300"
                   style={{
@@ -228,7 +228,7 @@ export function MatchDetailPage() {
         {/* Accepted players */}
         {acceptedPlayers.length > 0 && (
           <Card className="mb-6">
-            <h2 className="text-sm font-semibold text-gray-700 mb-3">
+            <h2 className="text-sm font-semibold text-gray-700 dark:text-dark-text mb-3">
               Jugadores confirmados ({acceptedPlayers.length})
             </h2>
             <div className="flex flex-wrap gap-3">
@@ -239,7 +239,7 @@ export function MatchDetailPage() {
                     name={ap.profiles?.name ?? "Jugador"}
                     size="sm"
                   />
-                  <span className="text-sm text-gray-700">
+                  <span className="text-sm text-gray-700 dark:text-dark-text">
                     {ap.profiles?.name ?? "Jugador"}
                   </span>
                 </div>
@@ -250,7 +250,7 @@ export function MatchDetailPage() {
 
         {/* WhatsApp link — only for accepted players and organizer */}
         {canSeeWhatsApp && match.whatsapp_link && (
-          <Card className="mb-6 border-verde-primary/30 bg-green-50/50">
+          <Card className="mb-6 border-verde-primary/30 bg-green-50/50 dark:bg-green-900/20 dark:border-green-700/30">
             <div className="flex items-center gap-3">
               <div className="flex-shrink-0 w-10 h-10 rounded-full bg-green-100 flex items-center justify-center">
                 <MessageCircle className="w-5 h-5 text-green-600" />
@@ -282,7 +282,7 @@ export function MatchDetailPage() {
                     {APPLICATION_STATUS_LABELS[myApplication.status]}
                   </Badge>
                 </div>
-                <p className="mt-2 text-sm text-gray-500">
+                <p className="mt-2 text-sm text-gray-500 dark:text-dark-text-muted">
                   {myApplication.status === "pending" &&
                     "Tu postulación está pendiente de revisión."}
                   {myApplication.status === "accepted" &&
@@ -306,7 +306,7 @@ export function MatchDetailPage() {
               </div>
             ) : (
               <div className="text-center">
-                <p className="text-sm text-gray-500 mb-4">
+                <p className="text-sm text-gray-500 dark:text-dark-text-muted mb-4">
                   ¿Querés jugar este partido? Postulate y el organizador
                   revisará tu perfil.
                 </p>
@@ -329,7 +329,7 @@ export function MatchDetailPage() {
         {/* Closed/cancelled — no actions */}
         {(match.status === "closed" || match.status === "cancelled") &&
           !isOrganizer && (
-            <Card className="text-center text-gray-400 py-6">
+            <Card className="text-center text-gray-400 dark:text-dark-text-muted py-6">
               <p className="text-sm">
                 {match.status === "closed"
                   ? "Este partido ya terminó."

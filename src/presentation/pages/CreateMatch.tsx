@@ -93,8 +93,8 @@ export function CreateMatchPage() {
           <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-green-100 mb-4">
             <Calendar className="w-8 h-8 text-green-600" />
           </div>
-          <h2 className="text-xl font-semibold text-gray-900">¡Partido creado!</h2>
-          <p className="mt-2 text-sm text-gray-500">
+          <h2 className="text-xl font-semibold text-gray-900 dark:text-dark-text">¡Partido creado!</h2>
+          <p className="mt-2 text-sm text-gray-500 dark:text-dark-text-muted">
             Redirigiendo al detalle del partido...
           </p>
         </Card>
@@ -108,29 +108,29 @@ export function CreateMatchPage() {
         {/* Header */}
         <button
           onClick={() => navigate(-1)}
-          className="inline-flex items-center gap-1 text-sm text-gray-500 hover:text-verde-primary transition-colors mb-6"
+          className="inline-flex items-center gap-1 text-sm text-gray-500 dark:text-dark-text-muted hover:text-verde-primary transition-colors mb-6"
         >
           <ArrowLeft className="w-4 h-4" />
           Volver
         </button>
 
-        <h1 className="text-2xl font-bold text-gray-900 mb-6">Crear un Partido</h1>
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-dark-text mb-6">Crear un Partido</h1>
 
         <Card>
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
             {/* Date */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-gray-700 dark:text-dark-text mb-1">
                 <Calendar className="w-4 h-4 inline mr-1.5 -mt-0.5" />
                 Fecha
               </label>
               <input
                 type="date"
                 {...register('date')}
-                className={`w-full rounded-lg border px-3 py-2.5 text-sm text-gray-900
-                  placeholder:text-gray-400 transition-colors min-h-[44px]
+                className={`w-full rounded-lg border px-3 py-2.5 text-sm text-gray-900 dark:text-dark-text bg-white dark:bg-dark-surface
+                  placeholder:text-gray-400 dark:placeholder:text-dark-text-muted transition-colors min-h-[44px]
                   focus:outline-none focus:ring-2 focus:ring-verde-primary focus:border-transparent
-                  ${errors.date ? 'border-rojo-alert' : 'border-gris-border'}`}
+                  ${errors.date ? 'border-rojo-alert' : 'border-gris-border dark:border-dark-border'}`}
               />
               {errors.date && (
                 <p className="mt-1 text-xs text-rojo-alert">{errors.date.message}</p>
@@ -140,35 +140,35 @@ export function CreateMatchPage() {
             {/* Time inputs */}
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  <Clock className="w-4 h-4 inline mr-1.5 -mt-0.5" />
-                  Inicio
-                </label>
-                <input
-                  type="time"
-                  {...register('start_time')}
-                  className={`w-full rounded-lg border px-3 py-2.5 text-sm text-gray-900
-                    transition-colors min-h-[44px]
-                    focus:outline-none focus:ring-2 focus:ring-verde-primary focus:border-transparent
-                    ${errors.start_time ? 'border-rojo-alert' : 'border-gris-border'}`}
-                />
+                  <label className="block text-sm font-medium text-gray-700 dark:text-dark-text mb-1">
+                    <Clock className="w-4 h-4 inline mr-1.5 -mt-0.5" />
+                    Inicio
+                  </label>
+                  <input
+                    type="time"
+                    {...register('start_time')}
+                    className={`w-full rounded-lg border px-3 py-2.5 text-sm text-gray-900 dark:text-dark-text bg-white dark:bg-dark-surface
+                      transition-colors min-h-[44px]
+                      focus:outline-none focus:ring-2 focus:ring-verde-primary focus:border-transparent
+                      ${errors.start_time ? 'border-rojo-alert' : 'border-gris-border dark:border-dark-border'}`}
+                  />
                 {errors.start_time && (
                   <p className="mt-1 text-xs text-rojo-alert">{errors.start_time.message}</p>
                 )}
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  <Clock className="w-4 h-4 inline mr-1.5 -mt-0.5" />
-                  Fin
-                </label>
-                <input
-                  type="time"
-                  {...register('end_time')}
-                  className={`w-full rounded-lg border px-3 py-2.5 text-sm text-gray-900
-                    transition-colors min-h-[44px]
-                    focus:outline-none focus:ring-2 focus:ring-verde-primary focus:border-transparent
-                    ${errors.end_time ? 'border-rojo-alert' : 'border-gris-border'}`}
-                />
+                  <label className="block text-sm font-medium text-gray-700 dark:text-dark-text mb-1">
+                    <Clock className="w-4 h-4 inline mr-1.5 -mt-0.5" />
+                    Fin
+                  </label>
+                  <input
+                    type="time"
+                    {...register('end_time')}
+                    className={`w-full rounded-lg border px-3 py-2.5 text-sm text-gray-900 dark:text-dark-text bg-white dark:bg-dark-surface
+                      transition-colors min-h-[44px]
+                      focus:outline-none focus:ring-2 focus:ring-verde-primary focus:border-transparent
+                      ${errors.end_time ? 'border-rojo-alert' : 'border-gris-border dark:border-dark-border'}`}
+                  />
                 {errors.end_time && (
                   <p className="mt-1 text-xs text-rojo-alert">{errors.end_time.message}</p>
                 )}
@@ -185,7 +185,7 @@ export function CreateMatchPage() {
 
             {/* Description */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-gray-700 dark:text-dark-text mb-1">
                 <AlignLeft className="w-4 h-4 inline mr-1.5 -mt-0.5" />
                 Descripción
               </label>
@@ -193,10 +193,10 @@ export function CreateMatchPage() {
                 {...register('description')}
                 rows={3}
                 placeholder="Describí el partido, nivel, qué llevar, etc."
-                className={`w-full rounded-lg border px-3 py-2.5 text-sm text-gray-900
-                  placeholder:text-gray-400 transition-colors min-h-[88px] resize-y
+                className={`w-full rounded-lg border px-3 py-2.5 text-sm text-gray-900 dark:text-dark-text bg-white dark:bg-dark-surface
+                  placeholder:text-gray-400 dark:placeholder:text-dark-text-muted transition-colors min-h-[88px] resize-y
                   focus:outline-none focus:ring-2 focus:ring-verde-primary focus:border-transparent
-                  ${errors.description ? 'border-rojo-alert' : 'border-gris-border'}`}
+                  ${errors.description ? 'border-rojo-alert' : 'border-gris-border dark:border-dark-border'}`}
               />
               {errors.description && (
                 <p className="mt-1 text-xs text-rojo-alert">{errors.description.message}</p>

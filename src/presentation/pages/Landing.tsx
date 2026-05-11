@@ -52,7 +52,7 @@ export function LandingPage() {
         />
         <div className="absolute inset-0 bg-black/50" aria-hidden="true" />
         <div className="relative max-w-3xl mx-auto">
-          <div className="bg-black/40 backdrop-blur-sm rounded-2xl p-8 sm:p-10 text-center">
+          <div className="bg-black/40 dark:bg-black/60 backdrop-blur-sm rounded-2xl p-8 sm:p-10 text-center">
             <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-white/20 mb-6">
               <Trophy className="w-8 h-8" />
             </div>
@@ -109,10 +109,10 @@ export function LandingPage() {
       <section className="py-8 px-4">
         <div className="max-w-3xl mx-auto">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-xl font-bold text-gray-900">
+            <h2 className="text-xl font-bold text-gray-900 dark:text-dark-text">
               Partidos disponibles
             </h2>
-            <span className="text-sm text-gray-500">
+            <span className="text-sm text-gray-500 dark:text-dark-text-muted">
               {filteredMatches.length} partido
               {filteredMatches.length !== 1 && "s"}
             </span>
@@ -128,8 +128,8 @@ export function LandingPage() {
                 value={locationFilter}
                 onChange={(e) => setLocationFilter(e.target.value)}
                 placeholder="Filtrar por zona..."
-                className="w-full rounded-lg border border-gris-border pl-10 pr-4 py-2.5 text-sm
-                  text-gray-900 placeholder:text-gray-400
+                className="w-full rounded-lg border border-gris-border dark:border-dark-border bg-white dark:bg-dark-surface pl-10 pr-4 py-2.5 text-sm
+                  text-gray-900 dark:text-dark-text placeholder:text-gray-400 dark:placeholder:text-dark-text-muted
                   focus:outline-none focus:ring-2 focus:ring-verde-primary focus:border-transparent
                   min-h-[44px]"
               />
@@ -142,8 +142,8 @@ export function LandingPage() {
                 type="date"
                 value={dateFilter}
                 onChange={(e) => setDateFilter(e.target.value)}
-                className="w-full rounded-lg border border-gris-border pl-10 pr-4 py-2.5 text-sm
-                  text-gray-900 placeholder:text-gray-400
+                className="w-full rounded-lg border border-gris-border dark:border-dark-border bg-white dark:bg-dark-surface pl-10 pr-4 py-2.5 text-sm
+                  text-gray-900 dark:text-dark-text placeholder:text-gray-400 dark:placeholder:text-dark-text-muted
                   focus:outline-none focus:ring-2 focus:ring-verde-primary focus:border-transparent
                   min-h-[44px]"
               />
@@ -206,16 +206,16 @@ export function LandingPage() {
 
       {/* Features section — only on initial state */}
       {!user && (
-        <section className="py-12 px-4 bg-gray-50/50">
+        <section className="py-12 px-4 bg-gray-50/50 dark:bg-dark-bg">
           <div className="max-w-3xl mx-auto grid sm:grid-cols-3 gap-6">
             <Card className="text-center">
               <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-verde-primary/10 mb-4">
                 <MapPin className="w-6 h-6 text-verde-primary" />
               </div>
-              <h3 className="font-semibold text-gray-900">
+              <h3 className="font-semibold text-gray-900 dark:text-dark-text">
                 Encuentra partidos
               </h3>
-              <p className="mt-2 text-sm text-gray-500">
+              <p className="mt-2 text-sm text-gray-500 dark:text-dark-text-muted">
                 Busca partidos cerca tuyo y postulate para jugar. Filtra por
                 zona y fecha.
               </p>
@@ -224,8 +224,8 @@ export function LandingPage() {
               <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-verde-primary/10 mb-4">
                 <PlusCircle className="w-6 h-6 text-verde-primary" />
               </div>
-              <h3 className="font-semibold text-gray-900">Organiza partidos</h3>
-              <p className="mt-2 text-sm text-gray-500">
+              <h3 className="font-semibold text-gray-900 dark:text-dark-text">Organiza partidos</h3>
+              <p className="mt-2 text-sm text-gray-500 dark:text-dark-text-muted">
                 Publica tus partidos y gestiona a los jugadores. Acepta, rechaza
                 y arma a tu equipo.
               </p>
@@ -234,8 +234,8 @@ export function LandingPage() {
               <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-verde-primary/10 mb-4">
                 <Users className="w-6 h-6 text-verde-primary" />
               </div>
-              <h3 className="font-semibold text-gray-900">Juega con pasión</h3>
-              <p className="mt-2 text-sm text-gray-500">
+              <h3 className="font-semibold text-gray-900 dark:text-dark-text">Juega con pasión</h3>
+              <p className="mt-2 text-sm text-gray-500 dark:text-dark-text-muted">
                 Conoce a nuevos jugadores, sigue tu historial y construye tu
                 reputación en la cancha.
               </p>

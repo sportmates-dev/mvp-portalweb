@@ -30,11 +30,11 @@ export function LoginPage() {
   }
 
   return (
-    <div className="min-h-[calc(100vh-3.5rem)] flex items-center justify-center px-4 py-12 bg-gris-bg">
+    <div className="min-h-[calc(100vh-3.5rem)] flex items-center justify-center px-4 py-12 bg-gris-bg dark:bg-dark-bg transition-colors duration-200">
       <div className="w-full max-w-md">
         <Link
           to="/"
-          className="inline-flex items-center gap-1 text-sm text-gray-500 hover:text-verde-primary mb-6 transition-colors"
+          className="inline-flex items-center gap-1 text-sm text-gray-500 dark:text-dark-text-muted hover:text-verde-primary mb-6 transition-colors"
         >
           <ArrowLeft className="w-4 h-4" />
           Volver
@@ -42,15 +42,15 @@ export function LoginPage() {
 
         <Card>
           <div className="text-center mb-6">
-            <h1 className="text-2xl font-bold text-gray-900">Iniciar sesión</h1>
-            <p className="mt-2 text-sm text-gray-500">
+            <h1 className="text-2xl font-bold text-gray-900 dark:text-dark-text">Iniciar sesión</h1>
+            <p className="mt-2 text-sm text-gray-500 dark:text-dark-text-muted">
               Ingresá a tu cuenta de SportMates
             </p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+              <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-dark-text mb-1">
                 Correo electrónico
               </label>
               <input
@@ -60,15 +60,15 @@ export function LoginPage() {
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="tu@email.com"
                 required
-                className="w-full rounded-lg border border-gris-border px-4 py-2.5 text-sm
-                  text-gray-900 placeholder:text-gray-400
+                className="w-full rounded-lg border border-gris-border dark:border-dark-border bg-white dark:bg-dark-surface px-4 py-2.5 text-sm
+                  text-gray-900 dark:text-dark-text placeholder:text-gray-400 dark:placeholder:text-dark-text-muted
                   focus:outline-none focus:ring-2 focus:ring-verde-primary focus:border-transparent
                   min-h-[44px]"
               />
             </div>
 
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
+              <label htmlFor="password" className="block text-sm font-medium text-gray-700 dark:text-dark-text mb-1">
                 Contraseña
               </label>
               <input
@@ -78,8 +78,8 @@ export function LoginPage() {
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="Tu contraseña"
                 required
-                className="w-full rounded-lg border border-gris-border px-4 py-2.5 text-sm
-                  text-gray-900 placeholder:text-gray-400
+                className="w-full rounded-lg border border-gris-border dark:border-dark-border bg-white dark:bg-dark-surface px-4 py-2.5 text-sm
+                  text-gray-900 dark:text-dark-text placeholder:text-gray-400 dark:placeholder:text-dark-text-muted
                   focus:outline-none focus:ring-2 focus:ring-verde-primary focus:border-transparent
                   min-h-[44px]"
               />
@@ -94,7 +94,7 @@ export function LoginPage() {
             </Button>
           </form>
 
-          <p className="mt-4 text-center text-sm text-gray-500">
+          <p className="mt-4 text-center text-sm text-gray-500 dark:text-dark-text-muted">
             ¿No tenés cuenta?{' '}
             <Link to="/register" className="text-verde-primary hover:underline font-medium">
               Registrate

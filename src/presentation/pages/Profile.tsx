@@ -104,9 +104,9 @@ export function ProfilePage() {
 
   return (
     <ProtectedRoute>
-      <div className="min-h-[calc(100vh-3.5rem)] bg-gris-bg py-8 px-4">
+      <div className="min-h-[calc(100vh-3.5rem)] bg-gris-bg dark:bg-dark-bg py-8 px-4 transition-colors duration-200">
         <div className="max-w-lg mx-auto">
-          <h1 className="text-2xl font-bold text-gray-900 mb-6">Mi Perfil</h1>
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-dark-text mb-6">Mi Perfil</h1>
 
           <Card className="space-y-6">
             {/* Photo section */}
@@ -134,7 +134,7 @@ export function ProfilePage() {
               <p className="text-xs text-gray-400">Máximo 2MB. Formatos JPG, PNG.</p>
             </div>
 
-            <hr className="border-gris-border" />
+            <hr className="border-gris-border dark:border-dark-border" />
 
             {/* Form */}
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
@@ -147,7 +147,7 @@ export function ProfilePage() {
 
               {/* Position selector */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-dark-text mb-1">
                   Posición de juego
                 </label>
                 <div className="grid grid-cols-2 gap-2">
@@ -156,7 +156,7 @@ export function ProfilePage() {
                     className={`rounded-lg border px-3 py-2.5 text-sm font-medium transition-colors min-h-[44px]
                       ${currentPosition === null
                         ? 'border-verde-primary bg-verde-primary/10 text-verde-primary'
-                        : 'border-gris-border text-gray-600 hover:border-gray-400'
+                        : 'border-gris-border dark:border-dark-border text-gray-600 dark:text-dark-text-muted hover:border-gray-400 dark:hover:border-dark-text'
                       }`}
                     onClick={() => setValue('position', null)}
                   >
