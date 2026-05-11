@@ -6,7 +6,7 @@ const variantStyles: Record<ButtonVariant, string> = {
   primary: 'bg-verde-primary hover:bg-verde-bright text-white',
   secondary: 'bg-azul-primary hover:bg-blue-700 text-white',
   danger: 'bg-rojo-alert hover:bg-red-600 text-white',
-  ghost: 'bg-transparent border border-gray-300 text-gray-700 hover:bg-gray-50',
+  ghost: 'bg-transparent border border-gray-300 dark:border-dark-border text-gray-700 dark:text-dark-text hover:bg-gray-50 dark:hover:bg-dark-surface/50',
 }
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
