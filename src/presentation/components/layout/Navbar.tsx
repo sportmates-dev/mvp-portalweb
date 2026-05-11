@@ -1,11 +1,13 @@
 import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { useAuth } from '../../hooks/useAuth'
+import { useTheme } from '../../providers/ThemeProvider'
 import { Avatar } from '../ui/Avatar'
 import { Button } from '../ui/Button'
-import { LogOut, PlusCircle, ListOrdered, Home } from 'lucide-react'
+import { LogOut, PlusCircle, ListOrdered, Home, Sun, Moon } from 'lucide-react'
 
 export function Navbar() {
   const { user, profile, signOut } = useAuth()
+  const { theme, toggleTheme } = useTheme()
   const navigate = useNavigate()
   const location = useLocation()
 
@@ -20,7 +22,7 @@ export function Navbar() {
     'h-9 inline-flex items-center gap-1.5 px-3 rounded-lg text-sm font-semibold transition-colors duration-150'
 
   return (
-    <nav className="sticky top-0 z-50 bg-white border-b border-gris-border shadow-sm">
+    <nav className="sticky top-0 z-50 bg-white dark:bg-dark-surface border-b border-gris-border dark:border-dark-border shadow-sm transition-colors duration-200">
       <div className="max-w-5xl mx-auto px-4 h-14 flex items-center justify-between">
         {/* Left: Logo + nav links */}
         <div className="flex items-center gap-6">
@@ -35,7 +37,7 @@ export function Navbar() {
                 className={`${baseNavItem} ${
                   isActive('/')
                     ? 'text-verde-primary'
-                    : 'text-gray-600 hover:text-verde-primary hover:bg-gray-50'
+                    : 'text-gray-600 dark:text-dark-text-muted hover:text-verde-primary hover:bg-gray-50 dark:hover:bg-dark-surface/50'
                 }`}
               >
                 <Home className="w-4 h-4" />
@@ -46,7 +48,7 @@ export function Navbar() {
                 className={`${baseNavItem} ${
                   isActive('/my-matches')
                     ? 'text-verde-primary'
-                    : 'text-gray-600 hover:text-verde-primary hover:bg-gray-50'
+                    : 'text-gray-600 dark:text-dark-text-muted hover:text-verde-primary hover:bg-gray-50 dark:hover:bg-dark-surface/50'
                 }`}
               >
                 <ListOrdered className="w-4 h-4" />
@@ -63,8 +65,25 @@ export function Navbar() {
           )}
         </div>
 
-        {/* Right: Auth or user menu */}
+        {/* Right: Theme toggle + Auth or user menu */}
         <div className="flex items-center gap-3">
+          {/* Theme toggle */}
+          <button
+            type="button"
+            onClick={() => {
+              console.log('[Theme] Toggle clicked, current theme:', theme)
+              toggleTheme()
+            }}
+            aria-label="Cambiar tema"
+            className="p-2 rounded-lg text-gray-500 dark:text-dark-text-muted hover:bg-gray-100 dark:hover:bg-dark-surface/50 transition-colors"
+          >
+            {theme === 'light' ? (
+              <Moon className="w-5 h-5" />
+            ) : (
+              <Sun className="w-5 h-5" />
+            )}
+          </button>
+
           {user ? (
             <>
               <Link
@@ -72,7 +91,7 @@ export function Navbar() {
                 className={`flex items-center gap-2 text-sm transition-colors ${
                   location.pathname === '/profile'
                     ? 'text-verde-primary font-semibold'
-                    : 'text-gray-700 hover:text-verde-primary'
+                    : 'text-gray-700 dark:text-dark-text hover:text-verde-primary'
                 }`}
               >
                 <Avatar
@@ -86,7 +105,7 @@ export function Navbar() {
               </Link>
               <button
                 onClick={handleLogout}
-                className="text-gray-400 hover:text-rojo-alert transition-colors p-1 rounded-lg"
+                className="text-gray-400 dark:text-dark-text-muted hover:text-rojo-alert transition-colors p-1 rounded-lg"
                 title="Cerrar sesión"
               >
                 <LogOut className="w-5 h-5" />
