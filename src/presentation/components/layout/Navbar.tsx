@@ -14,40 +14,50 @@ export function Navbar() {
     navigate('/')
   }
 
-  /** Highlight the active nav link. */
-  function linkClass(path: string): string {
-    const isActive = location.pathname === path
-    return `text-sm transition-colors flex items-center gap-1 ${
-      isActive
-        ? 'text-verde-primary font-semibold'
-        : 'text-gray-600 hover:text-verde-primary'
-    }`
-  }
+  const isActive = (path: string) => location.pathname === path
+
+  const baseNavItem =
+    'h-9 inline-flex items-center gap-1.5 px-3 rounded-lg text-sm font-semibold transition-colors duration-150'
 
   return (
     <nav className="sticky top-0 z-50 bg-white border-b border-gris-border shadow-sm">
       <div className="max-w-5xl mx-auto px-4 h-14 flex items-center justify-between">
         {/* Left: Logo + nav links */}
         <div className="flex items-center gap-6">
-          <Link to="/" className="text-xl font-bold text-verde-primary">
-            SportMates
+          <Link to="/" className="flex items-center">
+            <img src="/favicon.svg" alt="SportMates" className="h-8 w-auto" />
           </Link>
 
           {user && (
-            <div className="hidden sm:flex items-center gap-4">
-              <Link to="/" className={linkClass('/')}>
+            <div className="hidden sm:flex items-center gap-2">
+              <Link
+                to="/"
+                className={`${baseNavItem} ${
+                  isActive('/')
+                    ? 'text-verde-primary'
+                    : 'text-gray-600 hover:text-verde-primary hover:bg-gray-50'
+                }`}
+              >
                 <Home className="w-4 h-4" />
                 Partidos
               </Link>
-              <Link to="/my-matches" className={linkClass('/my-matches')}>
+              <Link
+                to="/my-matches"
+                className={`${baseNavItem} ${
+                  isActive('/my-matches')
+                    ? 'text-verde-primary'
+                    : 'text-gray-600 hover:text-verde-primary hover:bg-gray-50'
+                }`}
+              >
                 <ListOrdered className="w-4 h-4" />
                 Mis Partidos
               </Link>
-              <Link to="/matches/create">
-                <Button variant="primary" className="!py-1.5 !px-3 !text-xs !min-h-0 !rounded-lg">
-                  <PlusCircle className="w-4 h-4 mr-1" />
-                  Crear
-                </Button>
+              <Link
+                to="/matches/create"
+                className={`${baseNavItem} bg-verde-primary hover:bg-verde-bright text-white`}
+              >
+                <PlusCircle className="w-4 h-4" />
+                Crear
               </Link>
             </div>
           )}

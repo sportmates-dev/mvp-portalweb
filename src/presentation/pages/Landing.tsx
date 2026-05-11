@@ -43,19 +43,27 @@ export function LandingPage() {
   return (
     <div className="min-h-[calc(100vh-3.5rem)]">
       {/* Hero section */}
-      <section className="bg-verde-primary text-white py-16 px-4">
-        <div className="max-w-3xl mx-auto text-center">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-white/20 mb-6">
-            <Trophy className="w-8 h-8" />
-          </div>
-          <h1 className="text-3xl sm:text-4xl font-bold tracking-tight">
-            Encuentra Tu Partido de Fútbol
-          </h1>
-          <p className="mt-4 text-lg text-white/80 max-w-xl mx-auto">
-            La forma más fácil de organizar y unirte a partidos de fútbol 7.
-            Publica, postula y juega.
-          </p>
-          <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
+      <section className="relative text-white py-16 px-4 overflow-hidden">
+        <img
+          src="/sportmates-fondo.png"
+          alt=""
+          className="absolute inset-0 w-full h-full object-cover"
+          aria-hidden="true"
+        />
+        <div className="absolute inset-0 bg-black/50" aria-hidden="true" />
+        <div className="relative max-w-3xl mx-auto">
+          <div className="bg-black/40 backdrop-blur-sm rounded-2xl p-8 sm:p-10 text-center">
+            <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-white/20 mb-6">
+              <Trophy className="w-8 h-8" />
+            </div>
+            <h1 className="text-3xl sm:text-4xl font-bold tracking-tight">
+              Encuentra Tu Partido de Fútbol
+            </h1>
+            <p className="mt-4 text-lg text-white/80 max-w-xl mx-auto">
+              La forma más fácil de organizar y unirte a partidos de fútbol 7.
+              Publica, postula y juega.
+            </p>
+            <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
             {user ? (
               isOrganizer ? (
                 <Link to="/matches/create">
@@ -94,6 +102,7 @@ export function LandingPage() {
             )}
           </div>
         </div>
+      </div>
       </section>
 
       {/* Matches section */}
