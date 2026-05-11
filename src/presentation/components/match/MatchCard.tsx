@@ -36,11 +36,11 @@ export function MatchCard({ match, onClick }: MatchCardProps) {
     <Card onClick={onClick}>
       <div className="flex items-start justify-between gap-3">
         <div className="flex-1 min-w-0">
-          <h3 className="font-semibold text-gray-900 truncate">
+          <h3 className="font-semibold text-gray-900 dark:text-dark-text truncate">
             Partido en {match.location}
           </h3>
 
-          <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-gray-500">
+          <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-gray-500 dark:text-dark-text-muted">
             <span className="inline-flex items-center gap-1">
               <Calendar className="w-4 h-4" />
               {formatDate(match.date)} — {match.start_time.slice(0, 5)}
@@ -56,7 +56,7 @@ export function MatchCard({ match, onClick }: MatchCardProps) {
           </div>
 
           {match.description && (
-            <p className="mt-2 text-sm text-gray-600 line-clamp-2">
+            <p className="mt-2 text-sm text-gray-600 dark:text-dark-text-muted line-clamp-2">
               {match.description}
             </p>
           )}
