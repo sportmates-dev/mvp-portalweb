@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 import { AuthProvider } from './hooks/useAuth'
+import { ThemeProvider } from './providers/ThemeProvider'
 import { initPostHog, capturePageView } from '@infrastructure/analytics/posthog'
 
 function PostHogPageTracker({ children }: { children: React.ReactNode }) {
@@ -19,10 +20,12 @@ export function AppProviders({ children }: { children: React.ReactNode }) {
   }, [])
 
   return (
-    <AuthProvider>
-      <PostHogPageTracker>
-        {children}
-      </PostHogPageTracker>
-    </AuthProvider>
+    <ThemeProvider>
+      <AuthProvider>
+        <PostHogPageTracker>
+          {children}
+        </PostHogPageTracker>
+      </AuthProvider>
+    </ThemeProvider>
   )
 }

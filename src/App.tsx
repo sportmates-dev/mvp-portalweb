@@ -16,7 +16,7 @@ import { ManageMatchPage } from '@presentation/pages/ManageMatch'
  */
 function Layout() {
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col bg-gris-bg dark:bg-dark-bg text-gray-900 dark:text-dark-text transition-colors duration-200">
       <Navbar />
       <main className="flex-1">
         <Outlet />

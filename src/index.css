@@ -1,16 +1,33 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 @import "tailwindcss";
 
+/* Enable dark mode via .dark class on <html> */
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
+  /* Light mode (default) */
   --color-verde-primary: #28A745;
   --color-verde-bright: #00D166;
   --color-azul-primary: #0056b3;
   --color-gris-bg: #F8F9FA;
   --color-gris-border: #E9ECEF;
   --color-rojo-alert: #DC3545;
+
+  /* Dark mode surfaces */
+  --color-dark-bg: #0F172A;
+  --color-dark-surface: #1E293B;
+  --color-dark-border: #334155;
+  --color-dark-text: #F1F5F9;
+  --color-dark-text-muted: #94A3B8;
+
   --font-family-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
   --radius-lg: 8px;
   --radius-full: 9999px;
+}
+
+/* Dark mode — enables native browser dark UI (form controls, scrollbars) */
+.dark {
+  color-scheme: dark;
 }
 
 /* Base layer — ensure full-height layout and smooth font rendering */
@@ -22,7 +39,6 @@
   }
 
   body {
-    @apply bg-white text-gray-900;
     margin: 0;
   }
 
