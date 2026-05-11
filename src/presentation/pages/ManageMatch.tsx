@@ -6,10 +6,14 @@ import { Badge } from '../components/ui/Badge'
 import { Avatar } from '../components/ui/Avatar'
 import { Button } from '../components/ui/Button'
 import { MATCH_STATUS_LABELS } from '@domain/match'
+import { APPLICATION_STATUS_LABELS } from '@domain/application'
+import type { ApplicationStatus } from '@domain/application'
+import { PLAYER_POSITION_LABELS } from '@domain/profile'
 import type { PlayerPosition } from '@domain/profile'
 import {
   ArrowLeft, Calendar, Clock, MapPin, Users,
-  MessageCircle, Loader2, Star,
+  MessageCircle, Loader2, CheckCircle, XCircle,
+  UserX, ClipboardCheck, Star,
 } from 'lucide-react'
 
 function formatDate(dateStr: string): string {
@@ -29,6 +33,16 @@ function statusBadgeVariant(status: string): 'green' | 'orange' | 'red' | 'gray'
     case 'full': return 'gray'
     case 'closed': return 'orange'
     case 'cancelled': return 'red'
+    default: return 'gray'
+  }
+}
+
+function appStatusVariant(status: string): 'green' | 'orange' | 'red' | 'gray' {
+  switch (status) {
+    case 'accepted': return 'green'
+    case 'pending': return 'orange'
+    case 'rejected': return 'red'
+    case 'kicked': return 'red'
     default: return 'gray'
   }
 }
@@ -275,7 +289,111 @@ export function ManageMatchPage() {
                 const playerPosition = (player?.position ?? null) as PlayerPosition | null
 
                 return (
-                      <div
+                  <div
+                    key={app.id}
+                    className="flex items-center gap-3 p-3 rounded-lg border border-gris-border dark:border-dark-border bg-gray-50/50 dark:bg-dark-bg/50"
+                  >
+                    {/* Avatar + name + position */}
+                    <Avatar
+                      src={player?.photo_url ?? null}
+                      name={playerName}
+                      size="sm"
+                    />
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-semibold text-gray-900 dark:text-dark-text truncate">
+                        {playerName}
+                      </p>
+                      {playerPosition && (
+                        <p className="text-xs text-gray-500 dark:text-dark-text-muted">
+                          {PLAYER_POSITION_LABELS[playerPosition]}
+                        </p>
+                      )}
+                    </div>
+
+                    {/* Status badge */}
+                    <Badge variant={appStatusVariant(app.status)}>
+                      {APPLICATION_STATUS_LABELS[app.status as ApplicationStatus]}
+                    </Badge>
+
+                    {/* Actions */}
+                    {!isClosedOrCancelled && (
+                      <div className="flex items-center gap-1.5">
+                        {app.status === 'pending' && (
+                          <>
+                            <button
+                              onClick={() => handleAccept(app)}
+                              disabled={actionLoading === app.id}
+                              className="p-1.5 rounded-lg text-green-600 hover:bg-green-100 transition-colors"
+                              title="Aceptar"
+                            >
+                              <CheckCircle className="w-5 h-5" />
+                            </button>
+                            <button
+                              onClick={() => handleReject(app)}
+                              disabled={actionLoading === app.id}
+                              className="p-1.5 rounded-lg text-red-500 hover:bg-red-100 transition-colors"
+                              title="Rechazar"
+                            >
+                              <XCircle className="w-5 h-5" />
+                            </button>
+                          </>
+                        )}
+
+                        {app.status === 'accepted' && (
+                          <button
+                            onClick={() => handleKick(app)}
+                            disabled={actionLoading === app.id}
+                            className="p-1.5 rounded-lg text-red-400 hover:bg-red-100 hover:text-red-600 transition-colors"
+                            title="Expulsar"
+                          >
+                            <UserX className="w-5 h-5" />
+                          </button>
+                        )}
+
+                        {app.status === 'rejected' && (
+                          <span className="text-xs text-gray-400 italic">
+                            Puede volver a postularse
+                          </span>
+                        )}
+
+                        {app.status === 'kicked' && (
+                          <span className="text-xs text-gray-400 italic">Expulsado</span>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                )
+              })}
+            </div>
+          )}
+        </Card>
+
+        {/* ── 3. Post-match: Attendance ──────────────────────────────── */}
+        {isMatchEnded && (
+          <Card className="mb-6">
+            <div className="flex items-center gap-2 mb-4">
+              <ClipboardCheck className="w-5 h-5 text-gray-500" />
+              <h2 className="text-lg font-semibold text-gray-900 dark:text-dark-text">Asistencia</h2>
+            </div>
+
+            {applications.filter((a) => a.status === 'accepted').length === 0 ? (
+              <p className="text-sm text-gray-400 text-center py-4">
+                No hubo jugadores confirmados en este partido.
+              </p>
+            ) : (
+              <div className="space-y-2">
+                {applications
+                  .filter((a) => a.status === 'accepted')
+                  .map((app) => {
+                    const player = app.profiles
+                    const playerName = player?.name ?? 'Jugador'
+                    const attendance = attendances.find(
+                      (a) => a.player_id === app.player_id,
+                    )
+                    const attended = attendance?.attended ?? false
+
+                    return (
+                      <label
                         key={app.player_id}
                         className="flex items-center gap-3 p-3 rounded-lg border border-gris-border dark:border-dark-border bg-gray-50/50 dark:bg-dark-bg/50 cursor-pointer hover:bg-gray-100 dark:hover:bg-dark-surface/70 transition-colors"
                       >
@@ -292,7 +410,7 @@ export function ManageMatchPage() {
                           name={playerName}
                           size="sm"
                         />
-                        <span className="text-sm font-medium text-gray-900">
+                        <span className="text-sm font-medium text-gray-900 dark:text-dark-text">
                           {playerName}
                         </span>
                         {attended && (
@@ -300,19 +418,20 @@ export function ManageMatchPage() {
                             Presente
                           </span>
                         )}
-                      </div>
+                      </label>
                     )
                   })}
               </div>
             )}
           </Card>
+        )}
 
         {/* ── 4. Post-match: Ratings (only after attendance complete) ──── */}
         {isMatchEnded && isAttendanceCompleted && (
           <Card className="mb-6">
             <div className="flex items-center gap-2 mb-4">
               <Star className="w-5 h-5 text-amber-500" />
-              <h2 className="text-lg font-semibold text-gray-900">Puntuaciones</h2>
+              <h2 className="text-lg font-semibold text-gray-900 dark:text-dark-text">Puntuaciones</h2>
               <span className="text-xs text-gray-400 ml-1">(1 a 5)</span>
             </div>
 
@@ -335,14 +454,14 @@ export function ManageMatchPage() {
                     return (
                       <div
                         key={app.player_id}
-                    className="flex items-center gap-3 p-3 rounded-lg border border-gris-border dark:border-dark-border bg-gray-50/50 dark:bg-dark-bg/50"
+                        className="flex items-center gap-3 p-3 rounded-lg border border-gris-border dark:border-dark-border bg-gray-50/50 dark:bg-dark-bg/50"
                       >
                         <Avatar
                           src={player?.photo_url ?? null}
                           name={playerName}
                           size="sm"
                         />
-                        <span className="text-sm font-medium text-gray-900 flex-1 min-w-0 truncate">
+                        <span className="text-sm font-medium text-gray-900 dark:text-dark-text flex-1 min-w-0 truncate">
                           {playerName}
                         </span>
                         <div className="flex items-center gap-0.5">
